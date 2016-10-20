@@ -15,6 +15,9 @@
     "gtm"
   ],
   "author": "Chris Young",
+  "files": [
+    "src/**/*"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/GTMSportswear/js-feature-toggle-manager/issues"
@@ -22,7 +25,8 @@
   "homepage": "https://github.com/GTMSportswear/js-feature-toggle-manager#readme",
   "directories": {
     "baseURL": "src",
-    "packages": "src"
+    "packages": "src",
+    "lib": "src"
   },
   "dependencies": {},
   "devDependencies": {
