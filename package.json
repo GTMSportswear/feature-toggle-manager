@@ -1,0 +1,39 @@
+{
+  "name": "js-feature-toggle-manager",
+  "version": "1.0.0",
+  "description": "Tool for checking feature toggles",
+  // "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GTMSportswear/js-feature-toggle-manager.git"
+  },
+  "keywords": [
+    "gtmsportswear",
+    "gtm"
+  ],
+  "author": "Chris Young",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/GTMSportswear/js-feature-toggle-manager/issues"
+  },
+  "homepage": "https://github.com/GTMSportswear/js-feature-toggle-manager#readme",
+  // "jspm": true,
+  "directories": {
+    "baseURL": "src"
+  },
+  "dependencies": {
+    "GTMSportswear/js-utilities": "github:GTMSportswear/js-utilities@master"
+  },
+  "devDependencies": {
+    "karma": "^1.3.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-qunit": "^1.2.1",
+    "qunitjs": "^2.0.1",
+    "traceur": "0.0.111",
+    "tslint": "^3.15.1",
+    "typescript": "^2.0.3"
+  }
+}
