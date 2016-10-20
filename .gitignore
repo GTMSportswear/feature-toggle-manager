@@ -36,3 +36,5 @@ lib
 
 # distribution files, should be compiled
 dist
+
+src/system*.*

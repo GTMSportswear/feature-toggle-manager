@@ -1,4 +1,4 @@
-import { QueryStringReader } from './github/gtmsportswear/js-utilities@master/js-utilities';
+import { QueryStringReader } from './github/gtmsportswear/js-utilities@1.0.0/js-utilities';
 
 export class FeatureToggleManager {
   private static queryStringFeatureTogglesKey = 'features';

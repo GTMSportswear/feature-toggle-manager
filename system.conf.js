@@ -1,13 +1,14 @@
 System.config({
-  baseURL: '/',
+  baseURL: "/",
+  defaultJSExtensions: true,
+  transpiler: "traceur",
   paths: {
-    systemjs: 'lib/system.js/dist/system.js',
-    traceur: 'lib/traceur/traceur.min.js',
+    "systemjs": "lib/system.js/dist/system.js",
+    "traceur": "lib/traceur/traceur.min.js",
     "github:*": "/github/*"
   },
+
   map: {
-    "gtmsportswear/js-utilities": "github:gtmsportswear/js-utilities@master",
-  },
-  defaultJSExtensions: true,
-  transpiler: 'traceur'
+    "gtmsportswear/js-utilities": "github:gtmsportswear/js-utilities@1.0.0"
+  }
 });

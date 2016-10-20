@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tool for checking feature toggles",
   "main": "src/js-feature-toggle-manager.ts",
   "scripts": {
@@ -42,7 +42,7 @@
     },
     "configFile": "system.conf.js",
     "dependencies": {
-      "gtmsportswear/js-utilities": "github:gtmsportswear/js-utilities@master"
+      "gtmsportswear/js-utilities": "github:gtmsportswear/js-utilities@^1.0.0"
     },
     "devDependencies": {
       "traceur": "github:jmcriffey/bower-traceur@0.0.93",
