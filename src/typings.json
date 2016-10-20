@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "jquery": "registry:dt/jquery#1.10.0+20160929162922",
+    "qunit": "registry:dt/qunit#2.0.1+20161010105314"
+  }
+}

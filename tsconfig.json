@@ -7,11 +7,9 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "include": [
-    "jspm_packages"
-  ],
   "exclude": [
-    "node_modules",
-    "src"
+    ".baseDir.ts",
+    "lib",
+    "node_modules"
   ]
 }

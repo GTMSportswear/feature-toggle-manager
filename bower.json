@@ -1,0 +1,23 @@
+{
+  "name": "js-feature-toggle-manager",
+  "homepage": "https://github.com/gtmsportswear/js-feature-toggle-manager",
+  "authors": [
+    "It's Greek To Me, Inc."
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "system.js": "^0.19.31",
+    "traceur": "^0.0.111"
+  },
+  "devDependencies": {}
+}
