@@ -1,4 +1,0 @@
-# .npmignore
-
-src/typings/**/*
-src/**/definitions.d.ts
