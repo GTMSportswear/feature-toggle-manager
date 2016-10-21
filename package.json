@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Tool for checking feature toggles",
   "main": "src/js-feature-toggle-manager.ts",
   "scripts": {
@@ -17,8 +17,8 @@
   "author": "Chris Young",
   "files": [
     "src/js-feature-toggle-manager.ts",
-    "src/js-feature-toggle-manager-test.ts",
-    "src/**/github"
+    "src/js-feature-toggle-manager.test.ts",
+    "src/**/github/**"
   ],
   "license": "MIT",
   "bugs": {
@@ -51,8 +51,8 @@
     },
     "files": [
       "src/js-feature-toggle-manager.ts",
-      "src/js-feature-toggle-manager-test.ts",
-      "src/**/github"
+      "src/js-feature-toggle-manager.test.ts",
+      "src/**/github/**"
     ],
     "configFile": "system.conf.js",
     "dependencies": {
