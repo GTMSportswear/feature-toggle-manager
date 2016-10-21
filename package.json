@@ -16,7 +16,10 @@
   ],
   "author": "Chris Young",
   "files": [
-    "src/**/*"
+    "src/**/*",
+    "src/**/definitions.d.ts",
+    "!(src/*typings)",
+    "!(src/typings/)"
   ],
   "license": "MIT",
   "bugs": {
@@ -49,9 +52,9 @@
     },
     "files": [
       "src/**/*",
-      "src/**/definitions",
-      "src/**/*!typings",
-      "src/**/*!typings/"
+      "src/**/definitions.d.ts",
+      "!(src/*typings)",
+      "!(src/typings/)"
     ],
     "configFile": "system.conf.js",
     "dependencies": {
