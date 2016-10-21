@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Tool for checking feature toggles",
   "main": "src/js-feature-toggle-manager.ts",
   "scripts": {
