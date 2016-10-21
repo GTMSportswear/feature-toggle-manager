@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Tool for checking feature toggles",
   "main": "src/js-feature-toggle-manager.ts",
   "scripts": {
@@ -48,7 +48,10 @@
       "lib": "src"
     },
     "files": [
-      "src/**/*"
+      "src/**/*",
+      "src/**/definitions",
+      "src/**/*!typings",
+      "src/**/*!typings/"
     ],
     "configFile": "system.conf.js",
     "dependencies": {
