@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "Tool for checking feature toggles",
   "main": "src/js-feature-toggle-manager.ts",
   "scripts": {
@@ -32,14 +32,14 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "bower": "^1.7.9",
+    "bower": "^1.8.0",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^0.2.3",
-    "karma-qunit": "^1.2.0",
+    "karma-qunit": "^1.2.1",
     "karma-systemjs": "^0.13.0",
-    "qunitjs": "^1.17.1",
+    "qunitjs": "^1.23.1",
     "tslint": "^3.15.1",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.10"
   },
   "jspm": {
     "main": "src/js-feature-toggle-manager.ts",

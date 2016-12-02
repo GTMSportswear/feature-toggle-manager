@@ -29,17 +29,19 @@ export class FeatureToggleManager {
   
   private static getFeatureListFromWindow(): string[] {
     const windowFeatureToggles = window.featureToggles;
-    let list = [];
+    let list: any[];
 
     if (!Array.isArray(windowFeatureToggles)) {
       try {
         list = JSON.parse(windowFeatureToggles);
-        if (!Array.isArray(list)) list = [];
+        if (!Array.isArray(list)) throw new Error('List not an array.');
       }
       catch (e) {
-        // allowable control path, will default out to an empty array
+        list = [];
       }
     }
+    else
+      list = windowFeatureToggles;
 
     return this.removeFeatureTogglePrefixFromList(list);
   }

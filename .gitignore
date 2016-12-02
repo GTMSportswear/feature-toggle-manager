@@ -38,3 +38,6 @@ lib
 dist
 
 src/system*.*
+
+#VSCode
+.vscode
