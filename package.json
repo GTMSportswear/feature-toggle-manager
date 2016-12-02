@@ -1,8 +1,8 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "Tool for checking feature toggles",
-  "main": "src/js-feature-toggle-manager.ts",
+  "main": false,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
