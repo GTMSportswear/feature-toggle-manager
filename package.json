@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "description": "Tool for checking feature toggles",
   "main": "js-feature-toggle-manager.ts",
   "scripts": {
@@ -42,6 +42,7 @@
     "typescript": "^2.0.10"
   },
   "jspm": {
+    "main": "js-feature-toggle-manager.ts",
     "registry": "jspm",
     "directories": {
       "baseURL": "src",
