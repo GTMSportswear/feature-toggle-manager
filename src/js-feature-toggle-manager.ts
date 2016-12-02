@@ -29,7 +29,7 @@ export class FeatureToggleManager {
   
   private static getFeatureListFromWindow(): string[] {
     const windowFeatureToggles = window.featureToggles;
-    let list: any[];
+    let list: any;
 
     if (!Array.isArray(windowFeatureToggles)) {
       try {
