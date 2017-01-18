@@ -1,3 +1,3 @@
 interface Window {
-  featureToggles: string;
+  featureToggleStatuses: string;
 }

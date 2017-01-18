@@ -1,34 +1,43 @@
 import { QueryStringReader } from './github/gtmsportswear/js-utilities@1.0.0/js-utilities';
 
-export class FeatureToggleManager {
-  private static queryStringFeatureTogglesKey = 'features';
+export interface SavedToggleListStatus {
+  LastModifiedISO: string;
+  Toggles: ToggleStatus[];
+}
 
+export interface ToggleStatus {
+  Name: string;
+  Status: boolean;
+}
+
+export class FeatureToggleManager {
   /**
    * Check to see if a feature is currently active.
    * @param feature The feature to check for. Do not include the feature_toggle_ prefix.
    * @example For a feature_toggle_team_ordering feature, use hasFeature('product_page_team_ordering')
    */
   public static hasFeature(feature: string): boolean {
-    let found = false;
+    const features = this.combineFeatureLists(
+      this.getFeatureListFromLocalStorage(),
+      this.getFeatureListFromWindow()
+    );
+    
+    const featureMatch = features.find(toggle => toggle.Name === feature);
+    return undefined !== featureMatch && featureMatch.Status;
+  }
 
-    this.getFeatureListFromWindow().forEach(f => {
-      if (f === feature)
-        found = true;
-    });
-
-    if (found)
-      return true;
-
-    this.getFeatureListFromQueryString().forEach(f => {
-      if (f === feature)
-        found = true;
-    });
-
-    return found;
+  private static getFeatureListFromLocalStorage(): ToggleStatus[] {
+    try {
+      const storedToggles = <SavedToggleListStatus>JSON.parse(window.localStorage.getItem('featureToggles'));
+      return storedToggles.Toggles;
+    }
+    catch (e) {
+      return [];
+    }
   }
   
-  private static getFeatureListFromWindow(): string[] {
-    const windowFeatureToggles = window.featureToggles;
+  private static getFeatureListFromWindow(): ToggleStatus[] {
+    const windowFeatureToggles = window.featureToggleStatuses;
     let list: any;
 
     if (!Array.isArray(windowFeatureToggles)) {
@@ -43,27 +52,14 @@ export class FeatureToggleManager {
     else
       list = windowFeatureToggles;
 
-    return this.removeFeatureTogglePrefixFromList(list);
+    return list;
   }
 
-  private static removeFeatureTogglePrefixFromList(list: string[]): string[] {
-    const newList = [];
-
-    list.forEach(f => {
-      const ix = f.indexOf('feature_toggle_');
-      if (ix === 0)
-        newList.push(f.substr(15));
-      else
-        newList.push(f);
-    });
-
-    return newList;
-  }
-
-  private static getFeatureListFromQueryString(): string[] {
-    const qs = QueryStringReader.findQueryString(this.queryStringFeatureTogglesKey);
-    if (qs === null) return [];
-
-    return qs.value.split(',');
+  private static combineFeatureLists(lsList: ToggleStatus[], winList: ToggleStatus[]): ToggleStatus[] {
+    return lsList.concat(
+                  winList.filter(winToggle => {
+                      return lsList.every(lsToggle => lsToggle.Name !== winToggle.Name);
+                    })
+                  );
   }
 }
