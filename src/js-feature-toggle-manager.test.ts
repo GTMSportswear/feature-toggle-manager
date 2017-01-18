@@ -4,6 +4,9 @@ QUnit.module('FeatureToggleManager tests', {
   beforeEach: () => {
     window.localStorage.clear();
     window.featureToggleStatuses = '';
+  },
+  afterEach: () => {
+    history.pushState('', 'Reset querystring', `${window.location.pathname}`);
   }
 });
 
@@ -66,6 +69,48 @@ QUnit.test('Local storage setting should take precedence over window feature tog
   localStorageSetter.setLocalStorage();
 
   assert.notOk(FeatureToggleManager.hasFeature('feature_toggle_xyz'));
+});
+
+QUnit.test('Should deactivate feature if querystring contains the command featureoff=[featureName].', assert => {
+  const localStorageSetter = new LocalStorageSetter();
+  localStorageSetter.setToggle('feature_xyz', true);
+  localStorageSetter.setLocalStorage();
+  
+  history.pushState('', 'Add feature command to query string', `${window.location.pathname}?featureoff=feature_xyz`);
+  const ftm = new FeatureToggleManager();
+  ftm.updateTogglesBasedOnQueryStringCommands();
+
+  assert.notOk(FeatureToggleManager.hasFeature('feature_xyz'));
+});
+
+QUnit.test('Should activate feature if querystring contains the command featureon=[featureName].', assert => {
+  const localStorageSetter = new LocalStorageSetter();
+  localStorageSetter.setToggle('feature_xyz', false);
+  localStorageSetter.setLocalStorage();
+  
+  history.pushState('', 'Add feature command to query string', `${window.location.pathname}?featureon=feature_xyz`);
+  const ftm = new FeatureToggleManager();
+  ftm.updateTogglesBasedOnQueryStringCommands();
+
+  assert.ok(FeatureToggleManager.hasFeature('feature_xyz'));
+});
+
+QUnit.test('Should return a string with current feature toggles and checkmark demarkation for thos which are active.', assert => {
+  const windowSetter = new WindowToggleSetter();
+  windowSetter.setToggle('feature_toggle_x', false);
+  windowSetter.writeToWindowToggles();
+
+  const localStorageSetter = new LocalStorageSetter();
+  localStorageSetter.setToggle('feature_toggle_y', true);
+  localStorageSetter.setToggle('feature_toggle_z', false);
+  localStorageSetter.setLocalStorage();
+
+  new FeatureToggleManager();
+
+  const featureStrings = window.showFeatures().split('\n');
+  assert.equal(featureStrings[1], 'feature_toggle_y (✓)');
+  assert.equal(featureStrings[2], 'feature_toggle_z ()');
+  assert.equal(featureStrings[3], 'feature_toggle_x ()');
 });
 
 abstract class ToggleSetter {
