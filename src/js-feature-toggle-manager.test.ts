@@ -3,7 +3,7 @@ import { SavedToggleListStatus, ToggleStatus, FeatureToggleManager } from './js-
 QUnit.module('FeatureToggleManager tests', {
   beforeEach: () => {
     window.localStorage.clear();
-    window.featureToggleStatuses = '';
+    window.featureToggleList = '';
   },
   afterEach: () => {
     history.pushState('', 'Reset querystring', `${window.location.pathname}`);
@@ -21,12 +21,12 @@ QUnit.test('can check for features enabled', assert => {
 });
 
 QUnit.test('should work with undefined', assert => {
-  window.featureToggleStatuses = undefined;
+  window.featureToggleList = undefined;
   assert.notOk(FeatureToggleManager.hasFeature(undefined), 'Undefined feature toggle should not exist');
 });
 
 QUnit.test('should work with null', assert => {
-  window.featureToggleStatuses = null;
+  window.featureToggleList = null;
   assert.notOk(FeatureToggleManager.hasFeature(null), 'NULL feature toggle should not exist');
 });
 
@@ -119,14 +119,14 @@ abstract class ToggleSetter {
   public setToggle(toggleName: string, toggleStatus: boolean): void {
     this.toggles.push({
       Name: toggleName,
-      Status: toggleStatus
+      IsActive: toggleStatus
     });
   }
 }
 
 class WindowToggleSetter extends ToggleSetter {
   public writeToWindowToggles(): void {
-    window.featureToggleStatuses = JSON.stringify(this.toggles);
+    window.featureToggleList = JSON.stringify(this.toggles);
   }
 }
 

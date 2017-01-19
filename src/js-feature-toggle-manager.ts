@@ -7,7 +7,7 @@ export interface SavedToggleListStatus {
 
 export interface ToggleStatus {
   Name: string;
-  Status: boolean;
+  IsActive: boolean;
 }
 
 export class FeatureToggleManager {  
@@ -22,7 +22,7 @@ export class FeatureToggleManager {
     const features = this.getCombinedFeatureList();
     
     const featureMatch = features.find(toggle => toggle.Name === targetFeature);
-    return undefined !== featureMatch && featureMatch.Status;
+    return undefined !== featureMatch && featureMatch.IsActive;
   }
 
   private static getFeatureListFromLocalStorage(): ToggleStatus[] {
@@ -36,20 +36,20 @@ export class FeatureToggleManager {
   }
   
   private static getFeatureListFromWindow(): ToggleStatus[] {
-    const windowFeatureToggles = window.featureToggleStatuses;
+    const toggleList = window.featureToggleList;
     let list: any;
 
-    if (!Array.isArray(windowFeatureToggles)) {
+    if (!Array.isArray(toggleList)) {
       try {
-        list = JSON.parse(windowFeatureToggles);
-        if (!Array.isArray(list)) throw new Error('List not an array.');
+        list = JSON.parse(toggleList);
+        if (!Array.isArray(list)) throw new Error('Toggle list must be an array.');
       }
       catch (e) {
         list = [];
       }
     }
     else
-      list = windowFeatureToggles;
+      list = toggleList;
 
     return list;
   }
@@ -59,10 +59,10 @@ export class FeatureToggleManager {
           winList = this.getFeatureListFromWindow();
 
     return lsList.concat(
-                  winList.filter(winToggle => {
-                      return lsList.every(lsToggle => lsToggle.Name !== winToggle.Name);
-                    })
-                  );
+                    winList.filter(winToggle => {
+                        return lsList.every(lsToggle => lsToggle.Name !== winToggle.Name);
+                      })
+                    );
   }
 
   constructor() {
@@ -79,11 +79,11 @@ export class FeatureToggleManager {
           featureToToggleOff = QueryStringReader.findQueryString('featureoff'),
           updatedToggles = this.currentToggles.map(toggle => {
             if (null !== featureToToggleOff && featureToToggleOff.value.toLowerCase() === toggle.Name.toLowerCase()) {
-              toggle.Status = false;
+              toggle.IsActive = false;
               return toggle;
             }
             else if (null !== featureToToggleOn && featureToToggleOn.value.toLowerCase() === toggle.Name.toLowerCase()) {
-              toggle.Status = true;
+              toggle.IsActive = true;
               return toggle;
             }
 
@@ -104,7 +104,7 @@ export class FeatureToggleManager {
 
   private showFeatureToggles(): string {
     return this.currentToggles.reduce((returnString, toggle) => {
-      const activeIcon = toggle.Status ? '✓' : '';
+      const activeIcon = toggle.IsActive ? '✓' : '';
       returnString += `${toggle.Name} (${activeIcon})\n`;
       return returnString;
     }, '\n');
