@@ -1,3 +1,4 @@
 interface Window {
-  featureToggles: string;
+  featureToggleList: string;
+  showFeatures: () => string;
 }
