@@ -14,35 +14,18 @@ FeatureToggleManager.hasFeature('some_amazing_feature');
 ```
 
 ## Instantiated Methods
-### new FeatureToggleManager(someCallbackFunctionToHandleToggleSetRequests)
-For more complicated setups which allow feature toggles to be turned on via the query string, instantiate a feature toggle manager object, which will automatically collect available feature toggles from browser localStorage and window.
 
-### activateTogglesBasedOnQueryStringCommands()
-To activate a feature toggle based on query string commands, call this method.
+In order to activate a method which will allow users to issue a console command to see which feature toggles are activated, you will need to instantiate the feature toggle manager.
 
-The query string command is this:
-`featureon=the_feature_you_want_turned_on`
 ```
-/**
-  * Checks the browser's query string and activates
-  * any feature toggles based on those settings.
-  * Returns void.
-  */
-const manager = new FeatureToggleManager();
-manager.activateTogglesBasedOnQueryStringCommands();
+new FeatureToggleManager()
 ```
 
-### deactivateTogglesBasedOnQueryStringCommands()
-To deactivate a feature toggle based on query string commands, call this method.
-
-The query string command is this:
-`featureoff=the_feature_you_want_turned_off`
+Then, users can simply enter a command in the console to get output similar to the following:
 ```
-/**
-  * Checks the browser's query string and deactivates
-  * any feature toggles based on those settings.
-  * Returns void.
-  */
-const manager = new FeatureToggleManager();
-manager.deactivateTogglesBasedOnQueryStringCommands();
+> window.showFeatures()
+
+feature_toggle_x ()
+feature_toggle_y (✓)
+feature_toggle_z ()
 ```

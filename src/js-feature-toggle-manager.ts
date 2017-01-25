@@ -1,5 +1,3 @@
-import { QueryStringReader } from './github/gtmsportswear/js-utilities@1.0.0/js-utilities';
-
 export interface ToggleStatus {
   Name: string;
   IsActive: boolean;
@@ -35,75 +33,9 @@ export class FeatureToggleManager {
     return list;
   }
 
-  constructor(private setFeatureToggle: (toggleName: string, toggleSetting: boolean) => Promise<boolean>) {
+  constructor() {
     this.currentToggles = FeatureToggleManager.getFeatureListFromWindow();
     window.showFeatures = this.showFeatureToggles.bind(this);
-  }
-
-  /**
-   * Update window feature toggles with activated toggle as well as calling a callback with the updated toggle.
-   * @example for a querystring that contains the string 'featureoff=some_feature', the feature toggle some_feature will be deactivated.
-   */
-  public activateTogglesBasedOnQueryStringCommands(): Promise<boolean> {
-    const featureToToggleOn = QueryStringReader.findQueryString('featureon');
-    
-    return new Promise((success, error) => {
-      if (null !== featureToToggleOn && featureToToggleOn.value !== '')
-        this.activateFeatureToggle(featureToToggleOn.value)
-          .then((updatedToggle) => {
-            this.updateFeatureToggles(updatedToggle);
-            success();
-          });
-      else
-        success();
-    });
-}
-
-  /**
-   * Update window feature toggles with deactivated toggle as well as calling a callback with the updated toggle.
-   * @example for a querystring that contains the string 'featureoff=some_feature', the feature toggle some_feature will be deactivated.
-   */
-  public deactivateTogglesBasedOnQueryStringCommands(): Promise<boolean> {
-    const featureToToggleOff = QueryStringReader.findQueryString('featureoff');
-    
-    return new Promise((success, error) => {
-      if (null !== featureToToggleOff && featureToToggleOff.value !== '')
-        this.deactivateFeatureToggle(featureToToggleOff.value)
-          .then((updatedToggle) => {
-            this.updateFeatureToggles(updatedToggle);
-            success();
-          });
-      else
-        success();
-    });
-}
-
-private activateFeatureToggle(toggleName: string): Promise<ToggleStatus> {
-    return new Promise((success, error) => {
-      this.setFeatureToggle(toggleName, true)
-        .then(() => success({Name: toggleName, IsActive: true}));
-    });
-  }
-
-  private deactivateFeatureToggle(toggleName: string): Promise<ToggleStatus> {
-    return new Promise((success, error) => {
-      this.setFeatureToggle(toggleName, false)
-        .then(() => success({Name: toggleName, IsActive: false}));
-    });
-  }
-
-  private updateFeatureToggles(newToggleStatus: ToggleStatus): void {
-    this.currentToggles = this.currentToggles.map(toggle => {
-      if (toggle.Name === newToggleStatus.Name)
-        return newToggleStatus;
-      return toggle;
-    });
-
-    this.updateWindowToggles(this.currentToggles);
-  }
-
-  private updateWindowToggles(toggles: ToggleStatus[]): void {
-    window.sessionFeatureToggles = JSON.stringify(toggles);
   }
 
   private showFeatureToggles(): string {
