@@ -1,6 +1,6 @@
 # Feature Toggle Manager
 
-The feature toggle manager knows how to read statuses of current feature toggles from `localStorage.getItem('featureToggles')` as well as from `window.featureToggleStatuses`.
+The feature toggle manager reads statuses from a variable called `window.sessionFeatureToggles`.
 
 ## Static Methods
 ### hasFeature()
