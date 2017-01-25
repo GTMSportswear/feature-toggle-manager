@@ -12,9 +12,9 @@ export class FeatureToggleManager {
    * @example For a feature_toggle_team_ordering feature, use hasFeature('product_page_team_ordering')
    */
   public static hasFeature(targetFeature: string): boolean {
-    const features = this.getFeatureListFromWindow();
-    
-    const featureMatch = features.find(toggle => toggle.Name === targetFeature);
+    const features = this.getFeatureListFromWindow(),
+          featureMatch = features.find(toggle => toggle.Name === targetFeature);
+          
     return undefined !== featureMatch && featureMatch.IsActive;
   }
  
