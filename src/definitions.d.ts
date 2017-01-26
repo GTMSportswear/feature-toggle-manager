@@ -1,3 +1,5 @@
 interface Window {
-  featureToggles: string;
+  standardFeatureToggles: string;
+  sessionFeatureToggles: string;
+  showFeatures: () => string;
 }

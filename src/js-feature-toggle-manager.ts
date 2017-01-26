@@ -1,69 +1,48 @@
-import { QueryStringReader } from './github/gtmsportswear/js-utilities@1.0.0/js-utilities';
+export interface ToggleStatus {
+  Name: string;
+  IsActive: boolean;
+}
 
-export class FeatureToggleManager {
-  private static queryStringFeatureTogglesKey = 'features';
-
+export class FeatureToggleManager {  
+  private currentToggles: ToggleStatus[];
+  
   /**
    * Check to see if a feature is currently active.
    * @param feature The feature to check for. Do not include the feature_toggle_ prefix.
    * @example For a feature_toggle_team_ordering feature, use hasFeature('product_page_team_ordering')
    */
-  public static hasFeature(feature: string): boolean {
-    let found = false;
-
-    this.getFeatureListFromWindow().forEach(f => {
-      if (f === feature)
-        found = true;
-    });
-
-    if (found)
-      return true;
-
-    this.getFeatureListFromQueryString().forEach(f => {
-      if (f === feature)
-        found = true;
-    });
-
-    return found;
+  public static hasFeature(targetFeature: string): boolean {
+    const features = this.getFeatureListFromWindow(),
+          featureMatch = features.find(toggle => toggle.Name === targetFeature);
+          
+    return undefined !== featureMatch && featureMatch.IsActive;
   }
-  
-  private static getFeatureListFromWindow(): string[] {
-    const windowFeatureToggles = window.featureToggles;
+ 
+  private static getFeatureListFromWindow(): ToggleStatus[] {
+    const toggleList = window.sessionFeatureToggles;
     let list: any;
 
-    if (!Array.isArray(windowFeatureToggles)) {
-      try {
-        list = JSON.parse(windowFeatureToggles);
-        if (!Array.isArray(list)) throw new Error('List not an array.');
-      }
-      catch (e) {
-        list = [];
-      }
+    try {
+      list = JSON.parse(toggleList);
+      if (!Array.isArray(list)) throw new Error('Toggle list must be an array.');
     }
-    else
-      list = windowFeatureToggles;
+    catch (e) {
+      list = [];
+    }
 
-    return this.removeFeatureTogglePrefixFromList(list);
+    return list;
   }
 
-  private static removeFeatureTogglePrefixFromList(list: string[]): string[] {
-    const newList = [];
-
-    list.forEach(f => {
-      const ix = f.indexOf('feature_toggle_');
-      if (ix === 0)
-        newList.push(f.substr(15));
-      else
-        newList.push(f);
-    });
-
-    return newList;
+  constructor() {
+    this.currentToggles = FeatureToggleManager.getFeatureListFromWindow();
+    window.showFeatures = this.showFeatureToggles.bind(this);
   }
 
-  private static getFeatureListFromQueryString(): string[] {
-    const qs = QueryStringReader.findQueryString(this.queryStringFeatureTogglesKey);
-    if (qs === null) return [];
-
-    return qs.value.split(',');
+  private showFeatureToggles(): string {
+    return this.currentToggles.reduce((returnString, toggle) => {
+      const activeIcon = toggle.IsActive ? '✓' : '';
+      returnString += `${toggle.Name} (${activeIcon})\n`;
+      return returnString;
+    }, '\n');
   }
 }
