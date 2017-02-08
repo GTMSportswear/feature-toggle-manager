@@ -19,13 +19,31 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
     const panel = super.draw(),
           list = this.createToggleList();
     
+    panel.appendChild(this.createTitleNode());
     panel.appendChild(list);
 
     this.toggles.forEach(toggle => {
       list.appendChild(this.createToggleListItem(toggle));
     });
 
+    panel.appendChild(this.createHidePanelButton());
+
     return panel;
+  }
+
+  private createTitleNode(): Element {
+    const titleNode = document.createElement('h2');
+    titleNode.innerHTML = 'Feature Toggles';
+
+    return titleNode;
+  }
+
+  private createHidePanelButton(): Element {
+    const hidePanelButton = document.createElement('button');
+    hidePanelButton.classList.add('display-panel__hide');
+    hidePanelButton.innerHTML = 'Hide Panel';
+
+    return hidePanelButton;
   }
 
   private createToggleList(): HTMLUListElement {
@@ -34,8 +52,8 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
 
   private createToggleListItem(toggle: ToggleStatus): HTMLLIElement {
     const li = document.createElement('li');
-    li.appendChild(this.createToggleNameNode(toggle.Name));
     li.appendChild(this.createToggleStatusNode(toggle));
+    li.appendChild(this.createToggleNameNode(toggle.Name));
 
     return li;
   }
@@ -49,20 +67,21 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
   }
 
   private createToggleStatusNode(toggle: ToggleStatus): Element {
-    const statusNode = document.createElement('div');
+    const statusNode = document.createElement('label');
     statusNode.classList.add('item-status');
-    const toggleButton = document.createElement('a');
-    toggleButton.setAttribute('href', this.createFeatureToggleLink(toggle));
-    toggleButton.classList.add('btn');
+    const toggleCheckbox = document.createElement('input');
+    toggleCheckbox.setAttribute('type', 'checkbox');
+    toggleCheckbox.setAttribute('data-reload-href', this.createFeatureToggleLink(toggle));
+    const sliderDisplayNode = document.createElement('span');
+    sliderDisplayNode.classList.add('slider');
 
-    statusNode.appendChild(toggleButton);
+    statusNode.appendChild(toggleCheckbox);
+    statusNode.appendChild(sliderDisplayNode);
 
-    if (toggle.IsActive) {
-      toggleButton.classList.add('active');
-      toggleButton.innerHTML = 'Toggle Off';
-    }
+    if (toggle.IsActive)
+      toggleCheckbox.setAttribute('checked', 'true');
     else
-      toggleButton.innerHTML = 'Toggle On';
+      toggleCheckbox.removeAttribute('checked');
 
     return statusNode;
   }

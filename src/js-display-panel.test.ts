@@ -6,26 +6,31 @@ QUnit.module('DisplayPanel', {
   }
 });
 
+QUnit.test('Should have a title.', assert => {
+  const panel = PanelFactory.getPanel(),
+        panelNode = panel.draw();
+  
+  assert.equal(panelNode.querySelector('h2').innerHTML, 'Feature Toggles');
+});
+
 QUnit.test('Should output a list of current feature toggles', assert => {
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
   assert.equal(toggleNodeList.length, 2);
   assert.equal(toggleNodeList[0].querySelector('.item-name').innerHTML, 'FeatureA');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').innerHTML, 'Toggle Off');
-  assert.ok(toggleNodeList[0].querySelector('.item-status .btn').classList.contains('active'));
+  assert.ok(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('checked'));
 
   assert.equal(toggleNodeList[1].querySelector('.item-name').innerHTML, 'FeatureB');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').innerHTML, 'Toggle On');
-  assert.notOk(toggleNodeList[1].querySelector('.item-status .btn').classList.contains('active'));
+  assert.notOk(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('checked'));
 });
 
 QUnit.test('Should create toggle links that contain the proper query string parameters when no query string previously existed.', assert => {
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?featureoff=FeatureA');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?featureon=FeatureB');
+  assert.equal(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?featureoff=FeatureA');
+  assert.equal(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?featureon=FeatureB');
 });
 
 QUnit.test('Should create toggle links that contain the proper query string parameters when a query string currently exists.', assert => {
@@ -34,8 +39,8 @@ QUnit.test('Should create toggle links that contain the proper query string para
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
+  assert.equal(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
+  assert.equal(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
 });
 
 QUnit.test('Should create toggle links that contain the proper query string parameters when a query string currently exists and has an existing featureon command.', assert => {
@@ -44,8 +49,8 @@ QUnit.test('Should create toggle links that contain the proper query string para
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
+  assert.equal(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
+  assert.equal(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
 });
 
 QUnit.test('Should create toggle links that contain the proper query string parameters when a query string currently exists and has an existing featureoff command.', assert => {
@@ -54,8 +59,8 @@ QUnit.test('Should create toggle links that contain the proper query string para
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
+  assert.equal(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA');
+  assert.equal(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB');
 });
 
 QUnit.test('Should create toggle links that contain the proper query string parameters without affecting any active hashes.', assert => {
@@ -64,8 +69,15 @@ QUnit.test('Should create toggle links that contain the proper query string para
   const panel = PanelFactory.getPanel(),
         panelNode = panel.draw(),
         toggleNodeList = panelNode.querySelectorAll('li');
-  assert.equal(toggleNodeList[0].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA#moreDataWeDoNotWantToMessUp');
-  assert.equal(toggleNodeList[1].querySelector('.item-status .btn').getAttribute('href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB#moreDataWeDoNotWantToMessUp');
+  assert.equal(toggleNodeList[0].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureoff=FeatureA#moreDataWeDoNotWantToMessUp');
+  assert.equal(toggleNodeList[1].querySelector('.item-status input[type="checkbox"]').getAttribute('data-reload-href'), window.location.origin + window.location.pathname + '?someAttribute=someValue&featureon=FeatureB#moreDataWeDoNotWantToMessUp');
+});
+
+QUnit.test('Should have a button to hide the panel.', assert => {
+  const panel = PanelFactory.getPanel(),
+        panelNode = panel.draw();
+  
+  assert.ok(panelNode.querySelector('button.display-panel__hide'));
 });
 
 /** Some requirements
