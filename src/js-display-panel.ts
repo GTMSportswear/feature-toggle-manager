@@ -67,13 +67,21 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
   }
 
   private createToggleStatusNode(toggle: ToggleStatus): Element {
+    const featureToggleUpdateLink = this.createFeatureToggleLink(toggle);
+    
     const statusNode = document.createElement('label');
     statusNode.classList.add('item-status');
     const toggleCheckbox = document.createElement('input');
     toggleCheckbox.setAttribute('type', 'checkbox');
-    toggleCheckbox.setAttribute('data-reload-href', this.createFeatureToggleLink(toggle));
+    
     const sliderDisplayNode = document.createElement('span');
     sliderDisplayNode.classList.add('slider');
+    sliderDisplayNode.setAttribute('data-reload-href', featureToggleUpdateLink);
+    sliderDisplayNode.addEventListener('click', e => {
+      e.preventDefault();
+
+      this.reloadPageWithUpdatedQueryString(featureToggleUpdateLink);
+    });
 
     statusNode.appendChild(toggleCheckbox);
     statusNode.appendChild(sliderDisplayNode);
@@ -90,6 +98,12 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
     const featureOnOffString = toggle.IsActive ? 'featureoff' : 'featureon',
           queryString = this.getQueryString(`${featureOnOffString}=${toggle.Name}`);
     return `${window.location.origin}${window.location.pathname}?${queryString}${window.location.hash}`;
+  }
+
+  private reloadPageWithUpdatedQueryString(updateLink: string): void {
+    setTimeout(() => {
+      window.location.href = updateLink;
+    }, 200);
   }
 
   private getQueryString(featureCommandQueryString: string): string {
