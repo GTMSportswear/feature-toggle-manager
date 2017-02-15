@@ -1,6 +1,6 @@
 {
   "name": "js-feature-toggle-manager",
-  "version": "1.1.18",
+  "version": "3.0.1",
   "description": "Tool for checking feature toggles",
   "main": "js-feature-toggle-manager.ts",
   "scripts": {
@@ -14,10 +14,16 @@
     "gtmsportswear",
     "gtm"
   ],
-  "author": "Chris Young",
+  "contributors": [
+    {
+      "name": "Chris Young"
+    }, {
+      "name": "Sam Schneider"
+    }
+  ],
   "files": [
     "src/js-feature-toggle-manager.ts",
-    "src/js-feature-toggle-manager.test.ts",
+    "src/js-display-panel.ts",
     "src/**/github/**"
   ],
   "license": "MIT",
