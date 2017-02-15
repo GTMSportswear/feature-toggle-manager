@@ -1,9 +1,12 @@
+import { IDisplayPanelFactory } from './js-display-panel';
+
 export interface ToggleStatus {
   Name: string;
   IsActive: boolean;
 }
 
 export class FeatureToggleManager {  
+  private static _instance: FeatureToggleManager;
   private currentToggles: ToggleStatus[];
   
   /**
@@ -33,7 +36,28 @@ export class FeatureToggleManager {
     return list;
   }
 
-  constructor() {
+  /**
+   * Provides a getter method for Feature Toggle Manager singleton object.
+   */
+  static get instance(): FeatureToggleManager {
+    if (undefined === this._instance) {
+      this._instance = new FeatureToggleManager();
+      return this._instance;
+    }
+
+    return this._instance;
+  }
+
+  /**
+   * Creates a display panel that contains information and controls related to current feature toggles.
+   */
+  public createDisplayPanel(displayPanelFactory: IDisplayPanelFactory): Element {
+    const panel = displayPanelFactory.createDisplayPanel();
+    
+    return panel.draw();
+  }
+
+  private constructor() {
     this.currentToggles = FeatureToggleManager.getFeatureListFromWindow();
     window.showFeatures = this.showFeatureToggles.bind(this);
   }
