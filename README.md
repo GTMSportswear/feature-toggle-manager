@@ -17,7 +17,7 @@ FeatureToggleManager.hasFeature('some_amazing_feature');
 ### Console Toggle View
 In order to activate a method which will allow users to issue a console command to see which feature toggles are activated, you will need to get an instance of the feature toggle manager.
 
-You can do this by calling this method:
+Get an instance of the feature toggle manager:
 ```
 const myFeatureToggleManager = FeatureToggleManager.instance;
 ```
