@@ -14,7 +14,7 @@ FeatureToggleManager.hasFeature('some_amazing_feature');
 ```
 
 ## Instantiated Methods
-
+### Console Toggle View
 In order to activate a method which will allow users to issue a console command to see which feature toggles are activated, you will need to get an instance of the feature toggle manager.
 
 You can do this by calling this method:
@@ -31,11 +31,14 @@ feature_toggle_y (✓)
 feature_toggle_z ()
 ```
 
+### GUI Toggle View
 To provide a graphical user interface to users, you will need an instance of `FeatureToggleDisplayPanel`:
 ```
-const myDisplayPanel = FeatureToggleDisplayPanel(featureToggles), // Pass in an array of toggles.
-      myFeatureToggleManager = FeatureToggleManager.instance;
-myFeatureToggleManager.createDisplayPanel(myDisplayPanel);
+const myFeatureToggleManager = FeatureToggleManager.instance,
+      availableToggles = myFeatureToggleManager.toggles,
+      displayPanel = myFeatureToggleManager.createDisplayPanel(new FeatureToggleDisplayPanel(availableToggles));
+
+// displayPanel will be a div element containing the user interface.
 ```
 
-This is a barebones interface. The styling needs to be implemented by the consumer.
+This is a barebones user interface. The consumer will need to make the styling decisions.

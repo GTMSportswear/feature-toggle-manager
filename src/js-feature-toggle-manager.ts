@@ -7,7 +7,7 @@ export interface ToggleStatus {
 
 export class FeatureToggleManager {  
   private static _instance: FeatureToggleManager;
-  private currentToggles: ToggleStatus[];
+  private _toggles: ToggleStatus[];
   
   /**
    * Check to see if a feature is currently active.
@@ -49,6 +49,13 @@ export class FeatureToggleManager {
   }
 
   /**
+   * Getter for available feature toggles.
+   */
+  public get toggles(): ToggleStatus[] {
+    return this._toggles;
+  }
+
+  /**
    * Creates a display panel that contains information and controls related to current feature toggles.
    */
   public createDisplayPanel(displayPanelFactory: IDisplayPanelFactory): Element {
@@ -58,12 +65,12 @@ export class FeatureToggleManager {
   }
 
   private constructor() {
-    this.currentToggles = FeatureToggleManager.getFeatureListFromWindow();
+    this._toggles = FeatureToggleManager.getFeatureListFromWindow();
     window.showFeatures = this.showFeatureToggles.bind(this);
   }
 
   private showFeatureToggles(): string {
-    return this.currentToggles.reduce((returnString, toggle) => {
+    return this._toggles.reduce((returnString, toggle) => {
       const activeIcon = toggle.IsActive ? '✓' : '';
       returnString += `${toggle.Name} (${activeIcon})\n`;
       return returnString;

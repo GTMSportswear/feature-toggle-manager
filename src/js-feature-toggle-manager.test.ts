@@ -60,6 +60,17 @@ QUnit.test('Should return a string with current feature toggles and checkmark de
   assert.equal(featureStrings[3], 'feature_toggle_z ()');
 });
 
+QUnit.test('Feature toggles are available as a public property of the instantiated FeatureToggleManager.', assert => {
+  const manager = FeatureToggleManager.instance;
+
+  assert.equal(manager.toggles[0].Name, 'feature_toggle_x');
+  assert.equal(manager.toggles[0].IsActive, false);
+  assert.equal(manager.toggles[1].Name, 'feature_toggle_y');
+  assert.equal(manager.toggles[1].IsActive, true);
+  assert.equal(manager.toggles[2].Name, 'feature_toggle_z');
+  assert.equal(manager.toggles[2].IsActive, false);
+});
+
 QUnit.test('Can create a UI interface for interacting with feature toggles.', assert => {
   const manager = FeatureToggleManager.instance,
         panel = manager.createDisplayPanel(new StubDisplayPanelFactory());
