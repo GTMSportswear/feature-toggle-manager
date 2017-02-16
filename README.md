@@ -10,16 +10,16 @@ Use this method whenever a feature toggle switch needs to happen in the code.
   * Check if a particular feature toggle is turned on.
   * Returns a boolean.
   */
-FeatureToggleManager.hasFeature('some_amazing_feature');
+FeatureToggleManager.HasFeature('some_amazing_feature');
 ```
 
 ## Instantiated Methods
-
+### Console Toggle View
 In order to activate a method which will allow users to issue a console command to see which feature toggles are activated, you will need to get an instance of the feature toggle manager.
 
-You can do this by calling this method:
+Get an instance of the feature toggle manager:
 ```
-const myFeatureToggleManager = FeatureToggleManager.instance;
+const myFeatureToggleManager = FeatureToggleManager.Instance;
 ```
 
 Then, users can simply enter a command in the console to get output similar to the following:
@@ -31,11 +31,14 @@ feature_toggle_y (✓)
 feature_toggle_z ()
 ```
 
+### GUI Toggle View
 To provide a graphical user interface to users, you will need an instance of `FeatureToggleDisplayPanel`:
 ```
-const myDisplayPanel = FeatureToggleDisplayPanel(featureToggles), // Pass in an array of toggles.
-      myFeatureToggleManager = FeatureToggleManager.instance;
-myFeatureToggleManager.createDisplayPanel(myDisplayPanel);
+const myFeatureToggleManager = FeatureToggleManager.Instance,
+      availableToggles = myFeatureToggleManager.Toggles,
+      displayPanel = myFeatureToggleManager.CreateDisplayPanel(new FeatureToggleDisplayPanel(availableToggles));
+
+// displayPanel will be a div element containing the user interface.
 ```
 
-This is a barebones interface. The styling needs to be implemented by the consumer.
+This is a barebones user interface. The consumer will need to make the styling decisions.
