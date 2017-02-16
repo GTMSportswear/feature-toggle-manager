@@ -78,8 +78,6 @@ export class FeatureToggleDisplayPanel extends DisplayPanel {
     sliderDisplayNode.classList.add('slider');
     sliderDisplayNode.setAttribute('data-reload-href', featureToggleUpdateLink);
     sliderDisplayNode.addEventListener('click', e => {
-      e.preventDefault();
-
       this.reloadPageWithUpdatedQueryString(featureToggleUpdateLink);
     });
 
